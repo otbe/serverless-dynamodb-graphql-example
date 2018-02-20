@@ -1,5 +1,5 @@
 service:
-  name: slotter-io-backend
+  name: serverless-dynamodb-graphql-example
 
 plugins:
   - serverless-webpack
