@@ -1,0 +1,45 @@
+service:
+  name: slotter-io-backend
+
+plugins:
+  - serverless-webpack
+  - serverless-dynamodb-local
+  - serverless-offline
+
+provider:
+  name: aws
+  runtime: nodejs6.10
+
+custom:
+  userTableName: users
+  webpackIncludeModules: true
+  dynamodb:
+    start:
+      migrate: true  
+
+functions:
+  graphql:
+    handler: src/handler.handle
+    timeout: 300
+    environment:
+      TABLE: ${self:custom.userTableName}
+    events:
+      - http:
+          method: post
+          path: graphql
+
+resources:
+  Resources:
+    UsersTable:
+      Type: AWS::DynamoDB::Table
+      Properties:
+        TableName: ${self:custom.userTableName}
+        AttributeDefinitions:
+          - AttributeName: email
+            AttributeType: S 
+        KeySchema:
+          - AttributeName: email
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
