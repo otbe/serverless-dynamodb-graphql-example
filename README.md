@@ -8,3 +8,4 @@ $ yarn
 $ yarn sls dynamodb install
 $ yarn start
 ```
+GraphQL endpoint is available under `http://localhost:3000/graphql`
